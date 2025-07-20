@@ -1,19 +1,20 @@
-// app/layout.js
-import '../styles/globals.css'
-import LayoutClient from '@/components/LayoutClient'
+// app/(admin)/admin/layout.js
+'use client'
 
-export const metadata = {
-  title: 'Desa Menur',
-  description: 'Website Resmi Desa Menur',
-}
+import { usePathname } from 'next/navigation'
+import '@/../styles/globals.css'
+import AdminLayout from '@/components/admin/adminlayout'
 
-export default function RootLayout({ children }) {
+export default function Layout({ children }) {
+  const pathname = usePathname()
+
+  // Jika sedang di halaman login, tidak pakai AdminLayout
+  const isLoginPage = pathname === '/login'
+
   return (
     <html lang="id">
       <body>
-        <LayoutClient>
-          {children}
-        </LayoutClient>
+        {isLoginPage ? children : <AdminLayout>{children}</AdminLayout>}
       </body>
     </html>
   )

@@ -16,29 +16,40 @@ export default function LoginPage() {
     setError(null)
 
     try {
-      // 1. Ambil XSRF token dari backend
+      // Ambil CSRF cookie
       await fetch('/laravel-api/sanctum/csrf-cookie', {
         credentials: 'include',
-      })    
+      })
 
-      // 2. Kirim data login ke backend
-        const response = await fetch('/laravel-api/api/v1/login', {
+      // Ambil nilai cookie XSRF-TOKEN dari browser
+      const xsrfToken = decodeURIComponent(
+        document.cookie
+          .split('; ')
+          .find((row) => row.startsWith('XSRF-TOKEN='))
+          ?.split('=')[1] || ''
+      )
+
+      // Kirim login request
+      const response = await fetch('/laravel-api/login', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-XSRF-TOKEN': xsrfToken, // ⬅️ wajib!
         },
         credentials: 'include',
         body: JSON.stringify({ email, password }),
-        });
+      })
 
       if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.message || 'Login gagal')
+        const text = await response.text() // baca sebagai text, bukan JSON
+        console.error('Gagal login:', text)
+        throw new Error('Login gagal. Silakan cek email dan password.')
       }
 
-      // 3. Login berhasil: redirect ke dashboard admin
-      router.push('/admin/dashboard')
+      // Login berhasil, arahkan ke dashboard
+      router.push('/') // ← ini HARUS cocok dengan path page.js kamu
+
     } catch (err) {
       setError(err.message)
     } finally {
