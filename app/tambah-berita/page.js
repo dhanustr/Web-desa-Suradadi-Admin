@@ -23,6 +23,7 @@ export default function TambahBeritaPage() {
           router.replace('/login')
         }
       } catch (err) {
+        console.error('Gagal cek auth:', err)
         router.replace('/login')
       } finally {
         setCheckingAuth(false)
