@@ -74,7 +74,7 @@ export default function TambahBeritaPage() {
       })
 
       if (res.ok) {
-        router.push('/admin/dashboard')
+        router.push('/')
       } else {
         const error = await res.json()
         alert(error.message || 'Gagal menambah berita.')
@@ -92,7 +92,7 @@ export default function TambahBeritaPage() {
 
   return (
     <div className="p-6 max-w-xl">
-      <h1 className="text-2xl font-bold mb-6 text-green-800">Tambah Berita Baru</h1>
+      <h1 className="text-2xl font-bold mb-6 text-black-800">Tambah Berita Baru</h1>
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
           <label className="block mb-1 text-sm font-medium text-gray-700">Judul</label>

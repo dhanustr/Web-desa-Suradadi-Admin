@@ -122,15 +122,21 @@ export default function AdminDashboard() {
   if (loading) return <p className="p-6 text-gray-600">Memuat...</p>
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6 text-green-800">Dashboard Berita</h1>
+  <div className="relative min-h-screen">
+  {/* Background Image */}
+    <div
+      className="absolute inset-0 bg-contain bg-center bg-no-repeat opacity-10"
+      style={{ backgroundImage: "url('/assets/logoDesa.png')" }}>
+    </div>
+    <div className="relative z-10 p-6">
+      <h1 className="text-2xl font-bold mb-6 text-black-800">Daftar Berita</h1>
       {berita.length === 0 ? (
         <p className="text-gray-600">Belum ada berita.</p>
       ) : (
         <ul className="grid gap-4 md:grid-cols-2">
           {berita.map((item) => (
             <li key={item.id} className="bg-white rounded shadow p-4 border border-gray-100">
-              <h2 className="font-semibold text-lg text-green-700">{item.judul}</h2>
+              <h2 className="font-semibold text-blue-500">{item.judul}</h2>
               <p className="text-gray-700 mt-2 text-sm line-clamp-4">{item.isi}</p>
               <div className="flex gap-2 mt-4">
                 <button
@@ -154,7 +160,7 @@ export default function AdminDashboard() {
       {modalData && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded shadow-lg p-6 w-full max-w-md">
-            <h2 className="text-xl font-semibold mb-4 text-green-700">Edit Berita</h2>
+            <h2 className="text-xl font-semibold mb-4 text-blue-700">Edit Berita</h2>
             <form onSubmit={handleEditSubmit}>
               <input
                 type="text"
@@ -196,5 +202,6 @@ export default function AdminDashboard() {
         </div>
       )}
     </div>
+  </div>
   )
 }
